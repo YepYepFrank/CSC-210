@@ -47,6 +47,25 @@ class LoginForm(FlaskForm):
   submit = SubmitField("Log In")
 
 
+	
+class SignupForm(FlaskForm):
+  email = StringField("Email", validators=[DataRequired(), Length(1,64), Email()])
+  password = PasswordField("Password", validators=[DataRequired()])
+  firstname = StringField("Firstname", validators=[DataRequired()])
+  lastname = StringField("Lastname",validators=[DataRequired()])
+  age = IntegerField("Age", validators=[DataRequired()])
+  phone = StringField("Phone", validators=[DataRequired()])
+  ccountry = StringField("Country", validators=[DataRequired()])
+  gender = StringField("gender", validators=[DataRequired()])
+	
+@auth.route("/signup", methods=["GET","POST"])
+def signup():
+  form = SignupForm()
+  if form.validate_on_submit():
+   add_user(form.password.data, form.email.data, form.firstname.data, form.lastname.data, form.age.data, form.phone.data, form.ccountry.data, form.gender.data) 
+
+  return render_template("signup.html", form=form)
+	
 @auth.route("/login", methods=["GET","POST"])
 def login():
   form = LoginForm()
