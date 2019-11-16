@@ -24,7 +24,7 @@
           <img src="../static/images/navbar_logo.png" alt="logo" id="#navBarLogo">
         </a>
         <form class="form-inline">
-          <a class="btn loginButton" href="login.html" role="button">Log In</a>
+          <a class="btn loginButton" href="{{ url_for('login')}}" role="button">Log In</a>
         </form>
       </div>
     </nav>
@@ -44,9 +44,9 @@
             <div class="col-10 col-lg-8">
               <img src="../static/images/logo.png" alt="landing_background" class="img-fluid">
               <h2 class="landingH2">Join a community of creatives and collaborate today.</h2>
-              <a class="btn landingSignUp" href="signup.html" role="button">Sign Up</a>
+              <a class="btn landingSignUp" href="{{ url_for('signup')}}" role="button">Sign Up</a>
               <br>
-              <a class="btn landingLogIn" href="login.html" role="button">Log In</a>
+              <a class="btn landingLogIn" href="{{ url_for('login')}}" role="button">Log In</a>
             </div>
           </div>
         </div>

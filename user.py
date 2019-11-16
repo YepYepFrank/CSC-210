@@ -24,6 +24,7 @@ appdir = os.path.abspath(os.path.dirname(__file__))
 app.config["SQLALCHEMY_DATABASE_URI"] = \
   f"sqlite:///{os.path.join(appdir, 'user.db')}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY']="ADFGAERTASDFAGT245242WEF"
 
 db = SQLAlchemy(app)
 
@@ -68,7 +69,7 @@ class SignupForm(FlaskForm):
 def home():
   return render_template("index.html")
 	
-@auth.route("/signup", methods=["GET","POST"])
+@app.route("/signup", methods=["GET","POST"])
 def signup():
   form = SignupForm()
   if form.validate_on_submit():
@@ -76,7 +77,7 @@ def signup():
 
   return render_template("signup.html", form=form)
 	
-@auth.route("/login", methods=["GET","POST"])
+@app.route("/login", methods=["GET","POST"])
 def login():
   form = LoginForm()
   if form.validate_on_submit():
@@ -84,7 +85,7 @@ def login():
     if user is not None and \
       user.verify_password(form.password.data):
       login_user(user, form.remember_me.data)
-      return redirect(url_for("main_page"))
+      return redirect(url_for("home"))
     flash("Invalid Username or password.")
   return render_template("login.html", form=form)
   
