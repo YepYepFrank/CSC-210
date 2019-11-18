@@ -32,7 +32,7 @@
     <div class="container signUp">
       <img src="../static/images/logo.png" alt="landing_background" class="img-fluid signUpLogo">
       <h2>Create an account</h2>
-      <form>
+      <form action="{{ url_for('signup')}" method="POST">
         <div class="form-group">
           <input type="text" class="form-control" id="username" aria-describedby="usernameHelp" placeholder="Username">
         </div>

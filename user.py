@@ -71,23 +71,31 @@ def home():
 	
 @app.route("/signup", methods=["GET","POST"])
 def signup():
-  form = SignupForm()
-  if form.validate_on_submit():
-   add_user(form.password.data, form.email.data, form.firstname.data, form.lastname.data, form.age.data, form.phone.data, form.ccountry.data, form.gender.data) 
+  if request.method == 'POST':
+    try:
+      email = request.form['email']
+      password = request.form['password']
+      add_user(email, password)
+      return redirect(url_for("home"))
+    return render_template("signup.html")
+  else:
+    return render_template("signup.html")
 
-  return render_template("signup.html", form=form)
 	
 @app.route("/login", methods=["GET","POST"])
 def login():
-  form = LoginForm()
-  if form.validate_on_submit():
-    user = User.query.filter_by(email=form.email.data).first()
-    if user is not None and \
-      user.verify_password(form.password.data):
-      login_user(user, form.remember_me.data)
-      return redirect(url_for("home"))
-    flash("Invalid Username or password.")
-  return render_template("login.html", form=form)
+  if request.method == 'POST':
+    try:
+      email = request.form['email']
+      user = User.query.filter_by(email=form.email.data).first()
+      if user is not None and user.verify_password(request.form['password']):
+        login_user(user)
+        flash("Logged in!")
+        return redirect(url_for("home"))
+      return render_template("login")
+    return render_template("login")
+  else:
+    return render_template("login.html")
   
 
 @app.route("/logout")
