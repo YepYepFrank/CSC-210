@@ -47,24 +47,6 @@ def add_user (password, email, firstname, lastname, age, phone, ccountry, gender
 	db.session.commit()
 
 
-class LoginForm(FlaskForm):
-  email = StringField("Email", validators=[DataRequired(), Length(1,64), Email()])
-  password = PasswordField("Password", validators=[DataRequired()])
-  remember_me = BooleanField("Keep me logged in")
-  submit = SubmitField("Log In")
-
-
-	
-class SignupForm(FlaskForm):
-  email = StringField("Email", validators=[DataRequired(), Length(1,64), Email()])
-  password = PasswordField("Password", validators=[DataRequired()])
-  firstname = StringField("Firstname", validators=[DataRequired()])
-  lastname = StringField("Lastname",validators=[DataRequired()])
-  age = IntegerField("Age", validators=[DataRequired()])
-  phone = StringField("Phone", validators=[DataRequired()])
-  ccountry = StringField("Country", validators=[DataRequired()])
-  gender = StringField("gender", validators=[DataRequired()])
-
 @app.route("/")
 def home():
   return render_template("index.html")
