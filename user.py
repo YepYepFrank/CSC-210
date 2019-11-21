@@ -32,6 +32,8 @@ app.config['SECRET_KEY']="ADFGAERTASDFAGT245242WEF"
 
 db = SQLAlchemy(app)
 
+db.create_all()
+
 class User(db.Model):
   __tablename__ = "Users"
   user_id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
