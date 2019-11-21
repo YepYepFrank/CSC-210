@@ -32,13 +32,11 @@ app.config['SECRET_KEY']="ADFGAERTASDFAGT245242WEF"
 
 db = SQLAlchemy(app)
 
-db.create_all()
-
 class User(db.Model):
   __tablename__ = "Users"
-  user_id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
-  password = db.Column(db.Unicode(64), nullable=False)
-  email = db.Column(db.Unicode(64), nullable=False)
+  user_id = db.Column(db.Integer(), primary_key=True)
+  password = db.Column(db.String(64))
+  email = db.Column(db.String(64))
   # firstname = db.Column(db.Unicode(64), nullable=False)
   # lastname = db.Column(db.Unicode(64), nullable=False)
   # age = db.Column(db.Integer(), nullable=False)
@@ -48,18 +46,15 @@ class User(db.Model):
   # tokens = db.relationship("Tokens", backref="user_id")
 
 def add_user (email, password):
-  print("In add_user")
   newuser = User(password=generate_password_hash(password, method='sha256'), email=email)
-  print("created newuser")
   db.session.add(newuser)
-  print("added newuser")
   db.session.commit()
-  print("commited newuser")
 
 
 
 @app.route("/")
 def home():
+  db.create_all()
   return render_template("index.html")
 	
 @app.route("/signup", methods=["GET","POST"])
