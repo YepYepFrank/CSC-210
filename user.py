@@ -10,7 +10,7 @@ auth = Blueprint('auth', __name__)
 
 from flask import render_template, redirect, request
 from flask import url_for, flash
-from flask_login import login_user, logout_user, login_required, LoginManager
+from flask_login import login_user, logout_user, login_required, LoginManager, login_manager
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, IntegerField
@@ -20,9 +20,11 @@ from wtforms.validators import DataRequired, Length, Email
 
 app = Flask(__name__)
 
+
 appdir = os.path.abspath(os.path.dirname(__file__))
 login_manager = LoginManager()
 login_manager.login_view = "login"
+login_manager.session_protection = 'strong'
 login_manager.init_app(app)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = \
@@ -32,11 +34,15 @@ app.config['SECRET_KEY']="ADFGAERTASDFAGT245242WEF"
 
 db = SQLAlchemy(app)
 
+@login_manager.user_loader
+def load_user(user_id):
+  return User.query.get(int(user_id))
+
 class User(db.Model):
   __tablename__ = "Users"
   user_id = db.Column(db.Integer(), primary_key=True)
   password = db.Column(db.String(64))
-  email = db.Column(db.String(64))
+  email = db.Column(db.String(64), unique=True)
   # firstname = db.Column(db.Unicode(64), nullable=False)
   # lastname = db.Column(db.Unicode(64), nullable=False)
   # age = db.Column(db.Integer(), nullable=False)
@@ -44,6 +50,24 @@ class User(db.Model):
   # country = db.Column(db.Unicode(64), nullable=False)
   # gender = db.Column(db.Unicode(64), nullable=False)
   # tokens = db.relationship("Tokens", backref="user_id")
+
+  def is_active(self):
+      return True
+
+  def is_authenticated(self):
+      return True
+
+  def is_anonymous(self):
+      return False
+
+  def get_id(self):
+      return self.user_id
+
+  def set_password(self, password):
+      self.password = generate_password_hash(password)
+
+  def check_password(self, password):
+      return check_password_hash(self.hashed_password, password)
 
 def add_user (email, password):
   newuser = User(password=generate_password_hash(password, method='sha256'), email=email)
@@ -61,13 +85,9 @@ def home():
 def signup():
   if request.method == 'POST':
     try:
-      print("Try 1")
       email = request.form['email']
-      print("Try 2")
       password = request.form['password']
-      print("Try 3")
       add_user(email, password)
-      print("ADDED USER!")
       return redirect(url_for("home"))
     except:
       return render_template("signup.html")
@@ -80,14 +100,14 @@ def login():
   if request.method == 'POST':
     try:
       email = request.form['email']
-      user = db.session.query(User).filter_by(email=form.email.data).first()
+      password = request.form['password']
+      user = db.session.query(User).filter_by(email=email).first()
       if user is not None and check_password_hash(user.password, password):
         login_user(user)
-        flash("Logged in!")
         return redirect(url_for("home"))
-      return render_template("login")
+      return render_template("login.html")
     except:
-      return render_template("login")
+      return render_template("login.html")
   else:
     return render_template("login.html")
   
