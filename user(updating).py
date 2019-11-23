@@ -73,6 +73,10 @@ def add_user (email, password):
   newuser = User(password=generate_password_hash(password, method='sha256'), email=email)
   db.session.add(newuser)
   db.session.commit()
+  
+  def find_user (target_user_id):
+    result = User.query.filter_by(user_id = target_user_id)
+    return result
 
 
 
