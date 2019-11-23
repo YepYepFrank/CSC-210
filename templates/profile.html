@@ -38,7 +38,7 @@
               <a class="nav-link" href="profile.html">Profile</a>
             </li>
           </ul>
-          <a class="btn loginButton" href="#" role="button">Log Out</a>
+          <a class="btn loginButton" href="{{ url_for('logout')}}" role="button">Log Out</a>
         </div>
       </div>
     </nav>
@@ -51,7 +51,7 @@
               <img src="../static/images/display_pictures/profile1.jpg" class="card-img profilePhoto" alt="...">
             </div>
             <div class="col-md-7">
-              <h1 class="profileName">Mateus Asato</h1>
+              <h1 class="profileName"> {{user.email}} </h1>
               <div class="card-body">
                 <h5 class="card-text"><i class="far fa-play-circle"></i> Instruments:</h3>
                 <div class="profileBody">

@@ -104,13 +104,19 @@ def login():
       user = db.session.query(User).filter_by(email=email).first()
       if user is not None and check_password_hash(user.password, password):
         login_user(user)
-        return redirect(url_for("home"))
+        return redirect(url_for("profile", uid=user.user_id))
       return render_template("login.html")
     except:
       return render_template("login.html")
   else:
     return render_template("login.html")
   
+
+@app.route("/profile/<int:uid>", methods=["GET"])
+@login_required
+def profile(uid):
+  curUser = db.session.query(User).filter_by(user_id=uid).first()
+  return render_template("profile.html", user=curUser)
 
 @app.route("/logout")
 @login_required
