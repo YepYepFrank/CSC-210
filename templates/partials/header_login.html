@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/57af440f61.js" crossorigin="anonymous"></script>
+
+    {% if title %}
+    <title>{{title}} - Collab.</title>
+    {% else %}
+    <title>Collab.</title>
+    {% endif %}
+  </head>
+  
+  <body>
+    <nav class="navbar navbar-expand-sm" id="mainNavbar">
+      <div class="container">
+        <a class="navbar-brand" href="/browse">
+          <img src="../static/images/navbar_logo.png" alt="logo" id="#navBarLogo">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Search</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/profile">Profile</a>
+            </li>
+          </ul>
+          <a class="btn loginButton" href="/logout" role="button">Log Out</a>
+        </div>
+      </div>
+    </nav>
